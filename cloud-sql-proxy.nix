@@ -6,9 +6,9 @@
   sepWith = sep: list: builtins.concatStringsSep sep (removeEmpty list);
 
   desc = "Google Cloud SQL Proxy";
-  cfg = config.programs.cloud-sql-proxy;
+  cfg = config.services.cloud-sql-proxy;
 in {
-  options.programs.cloud-sql-proxy = {
+  options.services.cloud-sql-proxy = {
     enable = mkEnableOption desc;
 
     instances = mkOption {
