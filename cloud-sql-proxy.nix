@@ -39,7 +39,7 @@ in {
         Restart = "always";
         StandardOutput = "journal";
         ExecStart = sepWith " " [
-          "${pkgs.google-cloud-sql-proxy}/bin/cloud_sql_proxy"
+          "${pkgs.google-cloud-sql-proxy}/bin/cloud-sql-proxy"
           "-dir=/var/run/cloud-sql-proxy"
           "-instances=${sepWith "," cfg.instances}"
           (if isNull cfg.credentials then "" else "-credential_file=${toString cfg.credentials}")
