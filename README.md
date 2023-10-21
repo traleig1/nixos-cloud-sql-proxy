@@ -8,6 +8,6 @@ If you've followed the instructions [here](https://nixos.wiki/wiki/Flakes#Using_
 services.cloud-sql-proxy = {
   enable = true;
   credentials = /home/me/credentials.json;
-  instances = [ "myproject:myregion:myinstance=tcp:5432" ];
+  instances = [ "myproject:myregion:myinstance?port=5432" ];
 };
 ```
