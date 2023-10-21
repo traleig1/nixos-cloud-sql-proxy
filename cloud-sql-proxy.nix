@@ -12,7 +12,7 @@ in {
     enable = mkEnableOption desc;
 
     instances = mkOption {
-      type = with lib.types; listOf string;
+      type = with lib.types; listOf str;
       default = [];
       example = [ "myproject:myregion:myinstance=tcp:5432" ];
       description = mdDoc ''
@@ -28,7 +28,7 @@ in {
 
   };
   config = mkIf (cfg.enable && length cfg.instances > 0) {
-    environment.systemPackages = [ pkgs.cloud-sql-proxy ];
+    environment.systemPackages = [ pkgs.google-cloud-sql-proxy ];
     systemd.services.cloud-sql-proxy = {
       description = desc;
       wantedBy = [ "multi-user.target" ];
@@ -39,7 +39,7 @@ in {
         Restart = "always";
         StandardOutput = "journal";
         ExecStart = sepWith " " [
-          "${pkgs.cloud-sql-proxy}/bin/cloud_sql_proxy"
+          "${pkgs.google-cloud-sql-proxy}/bin/cloud_sql_proxy"
           "-dir=/var/run/cloud-sql-proxy"
           "-instances=${sepWith "," cfg.instances}"
           (if isNull cfg.credentials then "" else "-credential_file=${toString cfg.credentials}")
