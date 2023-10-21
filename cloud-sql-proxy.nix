@@ -35,15 +35,16 @@ in {
       requires = [ "network.target" ];
       after    = [ "network.target" ];
       restartIfChanged = true;
-      serviceConfig = {
+      serviceConfig = let 
+        executable = "${pkgs.google-cloud-sql-proxy}/bin/cloud-sql-proxy";
+        flags = [
+          "--unix-socket /var/run/cloud-sql-proxy"
+          (if isNull cfg.credentials then "" else "--credentials-file ${toString cfg.credentials}")
+        ];
+      in {
         Restart = "always";
         StandardOutput = "journal";
-        ExecStart = sepWith " " [
-          "${pkgs.google-cloud-sql-proxy}/bin/cloud-sql-proxy"
-          "-dir=/var/run/cloud-sql-proxy"
-          "-instances=${sepWith "," cfg.instances}"
-          (if isNull cfg.credentials then "" else "-credential_file=${toString cfg.credentials}")
-        ];
+        ExecStart = sepWith " " [executable (sepWith " " cfg.instances) (sepWith " " flags)];
       };
     };
   };
