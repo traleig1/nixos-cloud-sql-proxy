@@ -14,7 +14,7 @@ in {
     instances = mkOption {
       type = with lib.types; listOf str;
       default = [];
-      example = [ "myproject:myregion:myinstance=tcp:5432" ];
+      example = [ "myproject:myregion:myinstance?port=5432" ];
       description = mdDoc ''
         A list of instance strings, as described here:
         https://cloud.google.com/sql/docs/mysql/connect-admin-proxy
