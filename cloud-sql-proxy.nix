@@ -43,6 +43,7 @@ in {
         ];
       in {
         Restart = "always";
+        RestartSec = 30;
         StandardOutput = "journal";
         ExecStart = sepWith " " [executable (sepWith " " cfg.instances) (sepWith " " flags)];
       };
